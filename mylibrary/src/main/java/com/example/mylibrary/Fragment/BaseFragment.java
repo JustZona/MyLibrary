@@ -88,6 +88,15 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     @Override
+    public void onAttach(Context context1) {
+        super.onAttach(context1);
+        application = this.getActivity().getApplication();
+        context = this.getActivity();
+        init();
+        initWidget();
+        this.initWidget();
+    }
+    @Override
     public final void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         application = this.getActivity().getApplication();
