@@ -25,6 +25,8 @@ public abstract class FragmentActivity extends android.support.v4.app.FragmentAc
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = this;
+        beforeContentView();
+        setContentView(getLayoutResId());
         analysisLayout();
 //        analysis();
         handler = new NoLeakHandler(this){
@@ -40,7 +42,10 @@ public abstract class FragmentActivity extends android.support.v4.app.FragmentAc
         initWidget();
 
     }
+    public abstract int getLayoutResId();
+    public void beforeContentView(){
 
+    }
     /**
      * 获取一个Intent.
      * @return

@@ -26,6 +26,8 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = this;
+        beforeContentView();
+        setContentView(getLayoutResId());
         analysisLayout();
 //        analysis();
         handler = new NoLeakHandler(this){
@@ -72,7 +74,10 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
             setContentView(viewInjectLayout.value());
         }
     }
+    public void beforeContentView(){
 
+    }
+    public abstract int getLayoutResId();
     /**
      * 获取一个Intent.
      * @return
