@@ -33,6 +33,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     @Override
     public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        beforeContentView();
+        view = inflater.inflate(getLayoutResId(),null);
         view = inflater.inflate(analysisLayout(),null);
 //        analysis();
         handler = new NoLeakHandler(this){
@@ -45,6 +47,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         return view;
     }
 
+    public abstract int getLayoutResId();
+    public void beforeContentView(){
+
+    }
     /**
      * 获取一个Handler Message.
      * @return
