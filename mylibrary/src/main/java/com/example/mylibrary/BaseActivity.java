@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 
+import com.example.mylibrary.ViewUtil.StatusBarUtil;
 import com.example.mylibrary.handler.NoLeakHandler;
 
 import java.lang.reflect.Field;
@@ -24,10 +25,11 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setStatusBar();
         super.onCreate(savedInstanceState);
         this.context = this;
-        beforeContentView();
-        setContentView(getLayoutResId());
+//        beforeContentView();
+//        setContentView(getLayoutResId());
         analysisLayout();
 //        analysis();
         handler = new NoLeakHandler(this){
@@ -154,4 +156,12 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     public void bundleReturn(Bundle bundle){
 
     }
+    /**
+     * 设置沉浸式状态栏
+     */
+
+    public void setStatusBar(){
+        StatusBarUtil.transparencyBar(this);
+    }
+
 }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 
+import com.example.mylibrary.ViewUtil.StatusBarUtil;
+import com.example.mylibrary.ViewUtil.extra.CommonIntentExtra;
 import com.example.mylibrary.handler.NoLeakHandler;
 
 import java.lang.reflect.Field;
@@ -21,12 +23,16 @@ public abstract class FragmentActivity extends android.support.v4.app.FragmentAc
 
     public NoLeakHandler handler;
 
+    private boolean hasStatusBar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        hasStatusBar=getIntent().getBooleanExtra(CommonIntentExtra.EXTRA_HAS_STATUS_BAR,true);//默认值是true
+        setStatusBar();
         super.onCreate(savedInstanceState);
         this.context = this;
-        beforeContentView();
-        setContentView(getLayoutResId());
+//        beforeContentView();
+//        setContentView(getLayoutResId());
         analysisLayout();
 //        analysis();
         handler = new NoLeakHandler(this){
@@ -42,6 +48,23 @@ public abstract class FragmentActivity extends android.support.v4.app.FragmentAc
         initWidget();
 
     }
+    public boolean hasStatusBar(){
+        return hasStatusBar;
+    }
+    /**
+     * 沉浸式状态栏
+     */
+    private void setStatusBar() {
+        if(!hasStatusBar){
+            StatusBarUtil.transparencyBar(this);
+//            StatusBarUtil.transparencyBar(this);
+//            StatusBarUtil.statusBarLightMode(this,true);
+        }else{
+            StatusBarUtil.setStatusBarColor(this, R.color.white);
+            StatusBarUtil.statusBarLightMode(this,false);
+        }
+    }
+
     public abstract int getLayoutResId();
     public void beforeContentView(){
 
