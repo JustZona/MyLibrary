@@ -79,7 +79,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     public void beforeContentView(){
 
     }
-    public abstract int getLayoutResId();
+    //public abstract int getLayoutResId();
     /**
      * 获取一个Intent.
      * @return

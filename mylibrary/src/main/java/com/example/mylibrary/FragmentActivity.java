@@ -31,8 +31,8 @@ public abstract class FragmentActivity extends android.support.v4.app.FragmentAc
         setStatusBar();
         super.onCreate(savedInstanceState);
         this.context = this;
-//        beforeContentView();
-//        setContentView(getLayoutResId());
+        beforeContentView();
+       // setContentView(getLayoutResId());
         analysisLayout();
 //        analysis();
         handler = new NoLeakHandler(this){
@@ -65,7 +65,7 @@ public abstract class FragmentActivity extends android.support.v4.app.FragmentAc
         }
     }
 
-    public abstract int getLayoutResId();
+    //public abstract int getLayoutResId();
     public void beforeContentView(){
 
     }
