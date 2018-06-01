@@ -54,13 +54,13 @@ public abstract class FragmentActivity extends android.support.v4.app.FragmentAc
     /**
      * 沉浸式状态栏
      */
-    private void setStatusBar() {
+    public void setStatusBar() {
         if(!hasStatusBar){
             StatusBarUtil.transparencyBar(this);
 //            StatusBarUtil.transparencyBar(this);
 //            StatusBarUtil.statusBarLightMode(this,true);
         }else{
-            StatusBarUtil.setStatusBarColor(this, R.color.transparent);
+            StatusBarUtil.setStatusBarColor(this, R.color.white);
             StatusBarUtil.statusBarLightMode(this,false);
         }
     }
