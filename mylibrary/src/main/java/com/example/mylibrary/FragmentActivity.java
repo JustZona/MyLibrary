@@ -60,7 +60,7 @@ public abstract class FragmentActivity extends android.support.v4.app.FragmentAc
 //            StatusBarUtil.transparencyBar(this);
 //            StatusBarUtil.statusBarLightMode(this,true);
         }else{
-            StatusBarUtil.setStatusBarColor(this, R.color.white);
+            StatusBarUtil.setStatusBarColor(this, R.color.transparent);
             StatusBarUtil.statusBarLightMode(this,false);
         }
     }
