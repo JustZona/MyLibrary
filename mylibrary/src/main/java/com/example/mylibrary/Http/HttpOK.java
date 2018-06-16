@@ -1,10 +1,14 @@
 package com.example.mylibrary.Http;
 
+import android.content.Context;
 import android.support.v4.util.SimpleArrayMap;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -22,12 +26,19 @@ public class HttpOK {
 
     /**get异步请求无参.*/
     public static void getHttp(String url, HttpOkCallback callback){
-        getHttp(url,callback,null);
+        getHttp(url,callback,null,null);
     }
 
     /**get异步请求含参.*/
-    public static void getHttp(String url, HttpOkCallback callback, SimpleArrayMap<String,String> map){
-        OkHttpClient okHttpClient = new OkHttpClient();
+    public static void getHttp(String url, HttpOkCallback callback, SimpleArrayMap<String,String> map,Context context){
+        int cacheSize = 10 * 1024 * 1024;
+        File sdcache = context.getExternalCacheDir();
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .cache(new Cache(sdcache.getAbsoluteFile(), cacheSize));
+        OkHttpClient okHttpClient=clientBuilder.build();
         Request.Builder builder = new Request.Builder()
                 .get()
                 .url(url+MapHandle(map));
@@ -38,15 +49,22 @@ public class HttpOK {
     }
 
     /**get同步请求无参.*/
-    public static Response getHttpSyn(String url, HttpOkCallback callback){
-        return getHttpSyn(url,callback,null);
+    public static Response getHttpSyn(String url, HttpOkCallback callback,Context context){
+        return getHttpSyn(url,callback,null,context);
     }
 
     /**get同步请求含参.*/
-    public static Response getHttpSyn(String url, HttpOkCallback callback,SimpleArrayMap<String,String> map){
+    public static Response getHttpSyn(String url, HttpOkCallback callback,SimpleArrayMap<String,String> map,Context context){
         Response response = null;
         try {
-            OkHttpClient okHttpClient = new OkHttpClient();
+            int cacheSize = 10 * 1024 * 1024;
+            File sdcache = context.getExternalCacheDir();
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+                    .connectTimeout(15, TimeUnit.SECONDS)
+                    .writeTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS)
+                    .cache(new Cache(sdcache.getAbsoluteFile(), cacheSize));
+            OkHttpClient okHttpClient=clientBuilder.build();
             Request.Builder builder = new Request.Builder()
                     .get()
                     .url(url+MapHandle(map));
@@ -60,7 +78,7 @@ public class HttpOK {
         }
         return response;
     }
-
+    //post需要携带参数，会经常改动，所以没必要缓存
     /**post异步请求无参.*/
     public static void postHttp(String url, HttpOkCallback callback){
         postHttpMap(url,callback,null);
@@ -68,7 +86,11 @@ public class HttpOK {
 
     /**post异步请求含参.*/
     public static void postHttpMap(String url, HttpOkCallback callback,SimpleArrayMap<String,String> map){
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS);
+        OkHttpClient okHttpClient=clientBuilder.build();
         FormBody.Builder builder = new FormBody.Builder();
         if (map!=null){
             for (int i = 0; i < map.size(); i++) {
@@ -88,7 +110,11 @@ public class HttpOK {
 
     /**post异步请求含参(参数为字符串).*/
     public static void postHttp(String url, HttpOkCallback callback,String parameter){
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS);
+        OkHttpClient okHttpClient=clientBuilder.build();
         Request.Builder build = new Request.Builder()
                 .post(RequestBody.create(MediaType.parse("MEDIA_TYPE_MARKDOWN"), parameter))
                 .url(url);
@@ -109,7 +135,11 @@ public class HttpOK {
     public static Response postHttpSyn(String url,HttpOkCallback callback,String parameter){
         Response response = null;
         try {
-            OkHttpClient okHttpClient = new OkHttpClient();
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+                    .connectTimeout(15, TimeUnit.SECONDS)
+                    .writeTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS);
+            OkHttpClient okHttpClient=clientBuilder.build();
             Request.Builder build = new Request.Builder()
                     .post(RequestBody.create(MediaType.parse("MEDIA_TYPE_MARKDOWN"), parameter))
                     .url(url);
@@ -128,7 +158,11 @@ public class HttpOK {
     public static Response postHttpSynMap(String url,HttpOkCallback callback,SimpleArrayMap<String,String> map){
         Response response = null;
         try {
-            OkHttpClient okHttpClient = new OkHttpClient();
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+                    .connectTimeout(15, TimeUnit.SECONDS)
+                    .writeTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS);
+            OkHttpClient okHttpClient=clientBuilder.build();
             FormBody.Builder builder = new FormBody.Builder();
             if (map!=null){
                 for (int i = 0; i < map.size(); i++) {
